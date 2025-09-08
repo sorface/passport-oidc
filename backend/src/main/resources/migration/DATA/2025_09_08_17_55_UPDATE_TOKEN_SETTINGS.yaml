@@ -1,0 +1,15 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2025_09_08_17_55_UPDATE_TOKEN_SETTINGS
+      author: system
+      comment: Обновление времени жизни токенов для существующих клиентов
+      changes:
+        - update:
+            tableName: T_CLIENTTOKENSETTINGSTORE
+            columns:
+              - column:
+                  name: C_ACCESSTOKENTIMETOLIVE
+                  value: 3600
+              - column:
+                  name: C_REFRESHTOKENTIMETOLIVE
+                  value: 604800

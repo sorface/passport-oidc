@@ -23,9 +23,16 @@ import org.springframework.security.config.annotation.web.configurers.ExceptionH
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.oauth2.core.oidc.OidcUserInfo
+import org.springframework.security.oauth2.jwt.Jwt
 import org.springframework.security.oauth2.jwt.JwtDecoder
 import org.springframework.security.oauth2.jwt.JwtEncoder
+import org.springframework.security.oauth2.jwt.NimbusJwtDecoder
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder
+import org.springframework.security.oauth2.jwt.JwtTimestampValidator
+import org.springframework.security.oauth2.jwt.JwtIssuerValidator
+import org.springframework.security.oauth2.core.DelegatingOAuth2TokenValidator
+import org.springframework.security.oauth2.core.OAuth2TokenValidator
+import java.time.Duration
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OidcConfigurer
@@ -86,7 +93,14 @@ class SecurityAuthorizationServerConfig {
                     oidc.logoutEndpoint { logoutSpec ->
                         logoutSpec.logoutResponseHandler(oidcLogoutHandler)
                         logoutSpec.errorResponseHandler { request, response, exception ->
-                            log.error(exception.message, exception)
+                            when {
+                                exception.message?.contains("Jwt expired") == true -> {
+                                    log.warn("JWT token expired during logout: ${exception.message}")
+                                }
+                                else -> {
+                                    log.error("OpenID Connect 1.0 RP-Initiated Logout Error: ${exception.message}", exception)
+                                }
+                            }
                         }
                     }
                     oidc.providerConfigurationEndpoint { providerConfigurationEndpointSpec ->
@@ -136,11 +150,22 @@ class SecurityAuthorizationServerConfig {
      * Настройка декодера JWT.
      *
      * @param jwkSource источник JWK
+     * @param oidcAuthorizationProperties свойства авторизации OIDC
      * @return декодер JWT
      */
     @Bean
-    fun jwtDecoder(jwkSource: JWKSource<SecurityContext?>): JwtDecoder =
-        OAuth2AuthorizationServerConfiguration.jwtDecoder(jwkSource)
+    fun jwtDecoder(jwkSource: JWKSource<SecurityContext?>, oidcAuthorizationProperties: OidcAuthorizationProperties): JwtDecoder {
+        val jwtDecoder = OAuth2AuthorizationServerConfiguration.jwtDecoder(jwkSource) as NimbusJwtDecoder
+        
+        // Настройка валидаторов JWT с учетом clock skew для обработки истекших токенов в logout
+        val jwtValidator = DelegatingOAuth2TokenValidator<Jwt>(
+            JwtIssuerValidator(oidcAuthorizationProperties.url)
+        )
+        
+        jwtDecoder.setJwtValidator(jwtValidator)
+        
+        return jwtDecoder
+    }
 
     @Bean
     fun jwtEncoder(jwkSource: JWKSource<SecurityContext?>): JwtEncoder = NimbusJwtEncoder(jwkSource)
