@@ -1,5 +1,6 @@
 type AccountRole {
-    value: String!
+    code: String!
+    name: String
 }
 
 type Account {

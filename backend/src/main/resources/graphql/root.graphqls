@@ -20,7 +20,7 @@ type Query {
 
     # application query
 
-    applicationGetAll: [Application]!
+    applicationGetAll(page: Int, size: Int): [Application]!
     applicationGetByUser: [Application]!
 
     # session query
@@ -35,5 +35,9 @@ type Mutation {
     accountUpdateDetails(account: PatchUpdateAccount) : Account!
     accountUpdateUsernameById(accountUsernameUpdate: AccountUsernameUpdate): AccountUsername!
     accountRegistry(request: AccountRegistry): Account!
+
+    # application mutation
+
+    applicationUpdate(application: ApplicationUpdateInput): Application!
 
 }

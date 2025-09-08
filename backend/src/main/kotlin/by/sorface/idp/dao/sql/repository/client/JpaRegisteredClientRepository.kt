@@ -107,8 +107,8 @@ class JpaRegisteredClientRepository : RegisteredClientRepository {
             val tokenSetting = ClientTokenSettingModel().apply {
                 accessTokenFormat = OAuth2TokenFormat.SELF_CONTAINED.value
                 idTokenSignatureAlgorithm = SignatureAlgorithm.RS256
-                accessTokenTimeToLive = Duration.ofSeconds(360).toSeconds()
-                refreshTokenTimeToLive = Duration.ofSeconds(10_000).toSeconds()
+                accessTokenTimeToLive = Duration.ofHours(1).toSeconds()
+                refreshTokenTimeToLive = Duration.ofDays(7).toSeconds()
                 reuseRefreshTokens = false
             }
 

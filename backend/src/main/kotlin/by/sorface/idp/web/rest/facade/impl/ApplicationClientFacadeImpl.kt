@@ -79,8 +79,8 @@ class ApplicationClientFacadeImpl(
         val tokenSettings = TokenSettings.builder()
             .accessTokenFormat(OAuth2TokenFormat.SELF_CONTAINED)
             .idTokenSignatureAlgorithm(SignatureAlgorithm.RS256)
-            .accessTokenTimeToLive(Duration.ofSeconds(360))
-            .refreshTokenTimeToLive(Duration.ofSeconds(432_000))
+            .accessTokenTimeToLive(Duration.ofHours(1))
+            .refreshTokenTimeToLive(Duration.ofDays(7))
             .reuseRefreshTokens(true)
             .build()
 

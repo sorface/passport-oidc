@@ -35,7 +35,7 @@ abstract class AbstractSocialOAuth2UserService<T : ExternalOAuth2User> protected
 
 
         val newUser = this.createNewUser(oAuth2user).apply {
-            val defaultRole = roleRepository.findFirstByValueIgnoreCase(DEFAULT_ROLE_USER)
+            val defaultRole = roleRepository.findFirstByCodeIgnoreCase(DEFAULT_ROLE_USER)
 
             roles = listOfNotNull(defaultRole)
         }

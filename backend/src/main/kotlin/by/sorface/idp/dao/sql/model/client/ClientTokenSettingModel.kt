@@ -33,18 +33,18 @@ class ClientTokenSettingModel : BaseModel() {
     /**
      * Время жизни токена доступа.
      * Это поле указывает время жизни токена доступа в секундах.
-     * Значение по умолчанию - 360 секунд.
+     * Значение по умолчанию - 3600 секунд (1 час).
      */
     @Column(name = "C_ACCESSTOKENTIMETOLIVE", nullable = false)
-    var accessTokenTimeToLive: Long = 360
+    var accessTokenTimeToLive: Long = 3600
 
     /**
      * Время жизни токена обновления.
      * Это поле указывает время жизни токена обновления в секундах.
-     * Значение по умолчанию - 720 секунд.
+     * Значение по умолчанию - 604800 секунд (7 дней).
      */
     @Column(name = "C_REFRESHTOKENTIMETOLIVE", nullable = false)
-    var refreshTokenTimeToLive: Long = 720
+    var refreshTokenTimeToLive: Long = 604800
 
     /**
      * Повторное использование токенов обновления.

@@ -1,0 +1,38 @@
+databaseChangeLog:
+
+  - changeSet:
+      id: d1e2f3a4-b5c6-4d7e-8f9a-0b1c2d3e4f5a
+      author: Павел Талайко
+
+      comment: Обновление существующих ролей - добавление значений для колонки C_NAME
+
+      context: "development, production"
+
+      preConditions:
+        - onFail: MARK_RAN
+          and:
+            - tableExists:
+                tableName: T_ROLESTORE
+            - columnExists:
+                tableName: T_ROLESTORE
+                columnName: C_CODE
+            - columnExists:
+                tableName: T_ROLESTORE
+                columnName: C_NAME
+
+      changes:
+        - update:
+            tableName: T_ROLESTORE
+            columns:
+              - column:
+                  name: C_NAME
+                  value: "Пользователь"
+            where: C_CODE = 'ROLE_USER'
+        
+        - update:
+            tableName: T_ROLESTORE
+            columns:
+              - column:
+                  name: C_NAME
+                  value: "Администратор"
+            where: C_CODE = 'ROLE_ADMIN'

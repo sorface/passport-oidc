@@ -6,8 +6,8 @@ import jakarta.persistence.*
 @Entity
 @Table(name = "T_CLIENTREDIRECTURLSTORE")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="C_TYPE", discriminatorType = DiscriminatorType.STRING)
-abstract class RedirectUrlModel  : BaseModel() {
+@DiscriminatorColumn(name = "C_TYPE", discriminatorType = DiscriminatorType.STRING)
+abstract class RedirectUrlModel : BaseModel() {
 
     /**
      * URL перенаправления клиента.
@@ -24,5 +24,11 @@ abstract class RedirectUrlModel  : BaseModel() {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "C_FK_REGISTEREDCLIENT")
     var registeredClient: RegisteredClientModel? = null
+
+    /**
+     * Тип URL-адреса перенаправления
+     */
+    @Column(name = "C_TYPE", insertable = false, updatable = false)
+    var type: String? = null
 
 }

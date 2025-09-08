@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository
 @Repository
 interface RoleRepository : BaseRepository<RoleModel> {
 
-    fun findFirstByValueIgnoreCase(value: String): RoleModel?
+    fun findFirstByCodeIgnoreCase(code: String): RoleModel?
 
 }

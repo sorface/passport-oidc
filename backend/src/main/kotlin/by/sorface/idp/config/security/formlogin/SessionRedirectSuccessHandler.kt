@@ -67,7 +67,7 @@ class SessionRedirectSuccessHandler(endpointFrontendProperties: IdpFrontendEndpo
         if (savedRequest == null) {
             LOGGER.info("request [SessionAttributes.SAVED_REQUEST] is NULL for session [id -> {}]", request.requestedSessionId)
 
-            super.handle(request, response, authentication)
+            setStrategyRedirect(authentication, request, response, defaultTargetUrl)
 
             return
         }
@@ -77,7 +77,8 @@ class SessionRedirectSuccessHandler(endpointFrontendProperties: IdpFrontendEndpo
         LOGGER.info("target url parameter [{}], session [id -> {}]", targetUrlParameter, request.requestedSessionId)
 
         if (isAlwaysUseDefaultTargetUrl || (targetUrlParameter != null && StringUtils.hasText(request.getParameter(targetUrlParameter)))) {
-            super.handle(request, response, authentication)
+
+            setStrategyRedirect(authentication, request, response, defaultTargetUrl)
 
             return
         }
@@ -90,6 +91,10 @@ class SessionRedirectSuccessHandler(endpointFrontendProperties: IdpFrontendEndpo
 
         LOGGER.info("oauth2 redirect to target url -> {}. session [id -> {}]", targetUrl, request.requestedSessionId)
 
+        setStrategyRedirect(authentication, request, response, targetUrl)
+    }
+
+    private fun setStrategyRedirect(authentication: Authentication, request: HttpServletRequest, response: HttpServletResponse, targetUrl: String) {
         when (authentication) {
             is OAuth2AuthenticationToken -> {
                 redirectStrategy.sendRedirect(request, response, targetUrl)

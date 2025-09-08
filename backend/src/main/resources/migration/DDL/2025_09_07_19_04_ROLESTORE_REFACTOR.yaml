@@ -1,0 +1,53 @@
+databaseChangeLog:
+
+  - changeSet:
+      id: a8b3c7d9-e2f1-4a5b-9c8d-1e2f3a4b5c6d
+      author: Павел Талайко
+
+      comment: Переименование колонки C_VALUE в C_CODE в таблице T_ROLESTORE
+
+      context: "development, production"
+
+      preConditions:
+        - onFail: MARK_RAN
+          and:
+            - tableExists:
+                tableName: T_ROLESTORE
+            - columnExists:
+                tableName: T_ROLESTORE
+                columnName: C_VALUE
+
+      changes:
+        - renameColumn:
+            tableName: T_ROLESTORE
+            oldColumnName: C_VALUE
+            newColumnName: C_CODE
+            columnDataType: VARCHAR(50)
+
+  - changeSet:
+      id: b9c4d8e0-f3g2-5b6c-0d9e-2f3g4a5b6c7d
+      author: Павел Талайко
+
+      comment: Добавление колонки C_NAME в таблицу T_ROLESTORE
+
+      context: "development, production"
+
+      preConditions:
+        - onFail: MARK_RAN
+          and:
+            - tableExists:
+                tableName: T_ROLESTORE
+            - not:
+                columnExists:
+                  tableName: T_ROLESTORE
+                  columnName: C_NAME
+
+      changes:
+        - addColumn:
+            tableName: T_ROLESTORE
+            columns:
+              - column:
+                  name: C_NAME
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: true

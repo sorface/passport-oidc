@@ -154,6 +154,7 @@ class SecurityProductionConfig {
                         "/api/csrf", "/api/accounts/login/{login}/exists", "/api/accounts/authenticated"
                     )
                     .permitAll()
+                    .requestMatchers("/graphiql/**", "/graphql/**").permitAll()
                     .requestMatchers(HttpMethod.GET, "/api/registrations").anonymous()
                     .requestMatchers(HttpMethod.POST, "/api/registrations").anonymous()
                     .requestMatchers(HttpMethod.PUT, "/api/registrations/otp").anonymous()
@@ -245,7 +246,9 @@ class SecurityProductionConfig {
             .ignoringRequestMatchers(
                 AntPathRequestMatcher.antMatcher(HttpMethod.GET),
                 AntPathRequestMatcher.antMatcher(HttpMethod.OPTIONS),
-                AntPathRequestMatcher.antMatcher(HttpMethod.POST, "/logout")
+                AntPathRequestMatcher.antMatcher(HttpMethod.POST, "/logout"),
+                AntPathRequestMatcher.antMatcher(HttpMethod.POST, "/graphiql/**"),
+                AntPathRequestMatcher.antMatcher(HttpMethod.POST, "/graphql/**")
             )
             .csrfTokenRepository(cookieCsrfTokenRepository)
             .csrfTokenRequestHandler(spaCsrfTokenRequestHandler)

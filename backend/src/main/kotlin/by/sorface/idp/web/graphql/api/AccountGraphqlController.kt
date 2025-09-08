@@ -3,7 +3,11 @@ package by.sorface.idp.web.graphql.api
 import by.sorface.idp.dao.sql.model.UserModel
 import by.sorface.idp.extencions.getPrincipalIdOrNull
 import by.sorface.idp.extencions.getPrincipalIdOrThrow
-import by.sorface.idp.graphql.model.*
+import by.sorface.idp.graphql.model.GQAccountAuthenticated
+import by.sorface.idp.graphql.model.GQAccountExists
+import by.sorface.idp.graphql.model.GQAccountUsername
+import by.sorface.idp.graphql.model.GQAccountUsernameUpdate
+import by.sorface.idp.graphql.model.GQPatchUpdateAccount
 import by.sorface.idp.records.I18Codes
 import by.sorface.idp.web.graphql.services.impl.DefaultAccountService
 import org.springframework.graphql.data.method.annotation.Argument
@@ -13,7 +17,7 @@ import org.springframework.security.access.AccessDeniedException
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Controller
-import java.util.*
+import java.util.UUID
 
 @Controller
 class AccountGraphqlController(private val defaultAccountService: DefaultAccountService) {

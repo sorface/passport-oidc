@@ -1,0 +1,36 @@
+type Role {
+    id: UUID!
+    code: String!
+    name: String
+}
+
+input RoleCreateInput {
+    code: String! @NotBlank(message: "graphql.validator.role.code.not.null.empty")
+    name: String
+}
+
+input RoleUpdateInput {
+    id: UUID!
+    code: String! @NotBlank(message: "graphql.validator.role.code.not.null.empty")
+    name: String
+}
+
+type RoleDeleteResult {
+    success: Boolean!
+    message: String
+}
+
+extend type Query {
+    # role queries
+    roleGetAll: [Role!]!
+    roleGetById(id: UUID!): Role
+    roleGetByCode(code: String! @NotBlank(message: "graphql.validator.role.code.not.null.empty")): Role
+    roleGetMyRoles: [Role!]!
+}
+
+extend type Mutation {
+    # role mutations
+    roleCreate(input: RoleCreateInput!): Role!
+    roleUpdate(input: RoleUpdateInput!): Role
+    roleDelete(id: UUID!): RoleDeleteResult!
+}
