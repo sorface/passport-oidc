@@ -21,7 +21,7 @@ class UserDatabaseProvider(private val userRepository: UserRepository) : UserDet
             .let {
                 logger.info("user with username/email [$username/${it.email}] and ID [${it.id}] was loaded")
 
-                SorfacePrincipal(it.id, it.username!!, it.password!!, it.roles.mapNotNull { role -> role.value }.toMutableSet())
+                SorfacePrincipal(it.id, it.username!!, it.password!!, it.roles.mapNotNull { role -> role.code }.toMutableSet())
             }
 
 }

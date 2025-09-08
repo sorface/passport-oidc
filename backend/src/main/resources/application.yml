@@ -175,7 +175,7 @@ idp:
 
 logging:
   level:
-    root: info
+    root: debug
     by.sorface.idp: INFO
 #    org.springframework.security.oauth2.server.authorization.web.OAuth2TokenEndpointFilter: trace
 #    org.springframework.security.oauth2.server.authorization.authentication.OAuth2RefreshTokenAuthenticationProvider: trace

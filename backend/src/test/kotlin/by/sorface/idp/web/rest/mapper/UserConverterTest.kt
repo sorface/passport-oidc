@@ -25,7 +25,7 @@ class UserConverterTest {
             this.email = "email"
             this.username = "username"
             this.avatarUrl = "avatarUrl"
-            this.roles = listOf(RoleModel().apply { this.value = "ROLE_USER" })
+            this.roles = listOf(RoleModel().apply { this.code = "ROLE_USER" })
         }
 
         val profileRecord = userConverter.convert(userModel)

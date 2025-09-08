@@ -158,7 +158,7 @@ class RegistrationFacadeImpl(
             )
         }
 
-        val defaultRole = roleRepository.findFirstByValueIgnoreCase(UserRoles.USER.value)
+        val defaultRole = roleRepository.findFirstByCodeIgnoreCase(UserRoles.USER.value)
 
         val newAccount = UserModel().apply {
             this.username = registration.username

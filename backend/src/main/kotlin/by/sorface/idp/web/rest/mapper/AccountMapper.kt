@@ -18,7 +18,7 @@ class UserConverter {
             userModel.lastName,
             userModel.middleName,
             userModel.avatarUrl,
-            userModel.roles.mapNotNull { it.value }
+            userModel.roles.mapNotNull { it.code }
         )
     }
 

@@ -5,6 +5,7 @@ type Session {
     deviceType: String
     browser: String
     createdAt: Long
+    lastAccessTime: Long
     active: Boolean
 }
 

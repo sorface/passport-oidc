@@ -1,10 +1,12 @@
 package by.sorface.idp.dao.sql.repository.user
 
+import by.sorface.idp.dao.sql.model.RoleModel
 import by.sorface.idp.dao.sql.model.UserModel
 import by.sorface.idp.dao.sql.model.enums.ProviderType
 import by.sorface.idp.dao.sql.repository.BaseRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
+import java.util.*
 
 
 @Repository
@@ -84,5 +86,14 @@ interface UserRepository : BaseRepository<UserModel> {
      * @return UserModel? Объект UserModel, если пользователь найден, или null, если пользователь не найден.
      */
     fun findFirstByUsername(username: String?): UserModel?
+
+    /**
+     * Поиск всех ролей пользователя по его идентификатору.
+     *
+     * @param userId Идентификатор пользователя.
+     * @return Список ролей пользователя.
+     */
+    @Query("SELECT r FROM UserModel u JOIN u.roles r WHERE u.id = :userId")
+    fun findRolesByUserId(userId: UUID): List<RoleModel>
 
 }

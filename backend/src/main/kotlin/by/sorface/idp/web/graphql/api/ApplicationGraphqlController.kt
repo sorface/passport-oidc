@@ -14,10 +14,6 @@ import org.springframework.stereotype.Controller
 class ApplicationGraphqlController(private val applicationService: ApplicationService) {
 
     @QueryMapping
-    @PreAuthorize("hasRole('ADMIN')")
-    fun applicationGetAll(): List<RegisteredClientModel> = applicationService.getAll()
-
-    @QueryMapping
     @PreAuthorize("isAuthenticated()")
     fun applicationGetByUser(): List<RegisteredClientModel> {
         val principalId = SecurityContextHolder.getContext().getPrincipalIdOrThrow(

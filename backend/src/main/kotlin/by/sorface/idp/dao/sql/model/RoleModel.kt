@@ -8,7 +8,10 @@ import jakarta.persistence.Table
 @Table(name = "T_ROLESTORE")
 class RoleModel : BaseModel() {
 
-    @Column(name = "C_VALUE")
-    var value: String? = null
+    @Column(name = "C_CODE")
+    var code: String? = null
+
+    @Column(name = "C_NAME")
+    var name: String? = null
 
 }

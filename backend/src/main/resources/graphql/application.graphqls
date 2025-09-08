@@ -1,5 +1,11 @@
+enum UrlType {
+    POST_LOGOUT_REDIRECT_URL,
+    REDIRECT_URL
+}
+
 type ClientRedirectUrl {
     url: String!
+    type: String
 }
 
 type ClientAuthenticationMethod {
@@ -37,4 +43,45 @@ type Application {
     tokenSetting: ClientTokenSetting!
     clientIdIssueAt: String!
     clientSecretExpiresAt: String!
+}
+
+input ApplicationUpdateInput {
+    clientId: String! @NotBlank(message: "graphql.validator.application.clientId.not.null.empty")
+    clientName: String @Size(min: 1, max: 255, message: "graphql.validator.application.clientName.size")
+    redirectUris: [ClientRedirectUrlInput]
+    methods: [ClientAuthenticationMethodInput]
+    grantTypes: [ClientAuthenticationGrantTypeInput]
+    scopes: [ClientScopeInput]
+    clientSetting: ClientSettingsInput
+    tokenSetting: ClientTokenSettingInput
+}
+
+input ClientRedirectUrlInput {
+    url: String! @NotBlank(message: "graphql.validator.application.redirectUrl.not.null.empty")
+    type: UrlType
+}
+
+input ClientAuthenticationMethodInput {
+    method: String! @NotBlank(message: "graphql.validator.application.method.not.null.empty")
+}
+
+input ClientAuthenticationGrantTypeInput {
+    grantType: String! @NotBlank(message: "graphql.validator.application.grantType.not.null.empty")
+}
+
+input ClientScopeInput {
+    scope: String! @NotBlank(message: "graphql.validator.application.scope.not.null.empty")
+}
+
+input ClientSettingsInput {
+    requireConcept: Boolean
+    requireProofKey: Boolean
+}
+
+input ClientTokenSettingInput {
+    accessTokenFormat: String @Size(min: 1, max: 50, message: "graphql.validator.application.accessTokenFormat.size")
+    idTokenSignatureAlgorithm: String @Size(min: 1, max: 50, message: "graphql.validator.application.idTokenSignatureAlgorithm.size")
+    accessTokenTimeToLive: Int @Size(min: 1, max: 86400, message: "graphql.validator.application.accessTokenTimeToLive.size")
+    refreshTokenTimeToLive: Int @Size(min: 1, max: 86400, message: "graphql.validator.application.refreshTokenTimeToLive.size")
+    reuseRefreshTokens: Boolean
 }

@@ -20,6 +20,6 @@ class DefaultPrincipalConverter : PrincipalConverter {
     }
 
     private fun convertRoles(roles: Collection<RoleModel>): Set<String> {
-        return roles.mapNotNull { role -> role.value }.toSet()
+        return roles.mapNotNull { role -> role.code }.toSet()
     }
 }

@@ -1,4 +1,4 @@
-package by.sorface.idp.web.graphql.api.user
+package by.sorface.idp.web.graphql.api
 
 import by.sorface.idp.exceptions.GraphqlUserException
 import by.sorface.idp.extencions.getPrincipalOrThrow
